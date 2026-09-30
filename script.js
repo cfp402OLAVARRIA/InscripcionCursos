@@ -71,9 +71,9 @@ let descripcionCurso = document.getElementById("descripcionCurso");
 
 let cerrarInfo = document.getElementById("cerrarInfo");
 
-let elegirCurso = document.getElementById("elegirCurso");
-
 let imagenCurso = document.getElementById("imagenCurso");
+
+let curso = document.getElementById("curso");
 
 
 // DESCRIPCIONES DE LOS CURSOS
@@ -175,11 +175,4 @@ cerrarInfo.addEventListener("click", function() {
 });
 
 
-// ELEGIR EL CURSO
-
-elegirCurso.addEventListener("click", function() {
-
-    ventanaCurso.style.display = "none";
-
-});
 
