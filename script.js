@@ -33,10 +33,8 @@ formulario.addEventListener("submit", async function(evento) {
             await fetch(URL_APPS_SCRIPT, {
                 method: "POST",
                   mode: "no-cors",
-                headers: {
-                "Content-Type": "text/plain"
-        },
-                body: JSON.stringify(datos)
+                body: new URLSearchParams(datos)
+               
         });
 
     mensaje.innerHTML =
