@@ -30,40 +30,29 @@ formulario.addEventListener("submit", async function(evento) {
 
     try {
 
-        let respuesta = await fetch(URL_APPS_SCRIPT, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
+            await fetch(URL_APPS_SCRIPT, {
+                method: "POST",
+                  mode: "no-cors",
+                headers: {
                 "Content-Type": "text/plain"
-            },
+        },
                 body: JSON.stringify(datos)
- });
+        });
 
-        let resultado = await respuesta.json();
+    mensaje.innerHTML =
+        "✅ Solicitud enviada correctamente.<br><br>" +
+        "Alumno: " + nombre + " " + apellido + "<br>" +
+        "Curso: " + curso;
 
-        if (resultado.ok) {
+    formulario.reset();
 
-            mensaje.innerHTML =
-                "✅ Inscripción realizada correctamente.<br><br>" +
-                "Alumno: " + nombre + " " + apellido + "<br>" +
-                "Curso: " + curso;
+} catch (error) {
 
-            formulario.reset();
+    mensaje.innerHTML =
+        "❌ No se pudo enviar la inscripción.";
 
-        } else {
-
-            mensaje.innerHTML =
-                "⚠️ " + resultado.mensaje;
-
-        }
-
-    } catch (error) {
-
-        mensaje.innerHTML =
-            "❌ No se pudo enviar la inscripción. Intente nuevamente.";
-
-        console.error(error);
-    }
+    console.error(error);
+}
 
 });
 
