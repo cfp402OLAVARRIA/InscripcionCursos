@@ -32,8 +32,12 @@ formulario.addEventListener("submit", async function(evento) {
 
         let respuesta = await fetch(URL_APPS_SCRIPT, {
             method: "POST",
-            body: JSON.stringify(datos)
-        });
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "text/plain"
+            },
+                body: JSON.stringify(datos)
+ });
 
         let resultado = await respuesta.json();
 
