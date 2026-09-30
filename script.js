@@ -1,23 +1,67 @@
 let formulario = document.getElementById("formulario");
 
-formulario.addEventListener("submit", function(evento) {
+const URL_APPS_SCRIPT =
+    "https://script.google.com/macros/s/AKfycbz26bHjMYRf6QMj2XwBOHq1zKOVeKHACGiVsctzbY5vEpO173vZQyT4ruQHfvcSGMmO/exec";
+
+
+formulario.addEventListener("submit", async function(evento) {
 
     evento.preventDefault();
 
     let nombre = document.getElementById("nombre").value;
     let apellido = document.getElementById("apellido").value;
+    let dni = document.getElementById("dni").value;
+    let pabellon = document.getElementById("pabellon").value;
+    let celda = document.getElementById("celda").value;
     let curso = document.getElementById("curso").value;
 
     let mensaje = document.getElementById("mensaje");
 
-    mensaje.innerHTML =
-        "✅ Inscripción realizada correctamente.<br><br>" +
-        "Alumno: " + nombre + " " + apellido + "<br>" +
-        "Curso: " + curso;
+    mensaje.innerHTML = "⏳ Enviando inscripción...";
+
+    let datos = {
+        nombre: nombre,
+        apellido: apellido,
+        dni: dni,
+        pabellon: pabellon,
+        celda: celda,
+        curso: curso
+    };
+
+    try {
+
+        let respuesta = await fetch(URL_APPS_SCRIPT, {
+            method: "POST",
+            body: JSON.stringify(datos)
+        });
+
+        let resultado = await respuesta.json();
+
+        if (resultado.ok) {
+
+            mensaje.innerHTML =
+                "✅ Inscripción realizada correctamente.<br><br>" +
+                "Alumno: " + nombre + " " + apellido + "<br>" +
+                "Curso: " + curso;
+
+            formulario.reset();
+
+        } else {
+
+            mensaje.innerHTML =
+                "⚠️ " + resultado.mensaje;
+
+        }
+
+    } catch (error) {
+
+        mensaje.innerHTML =
+            "❌ No se pudo enviar la inscripción. Intente nuevamente.";
+
+        console.error(error);
+    }
 
 });
-
-let curso = document.getElementById("curso");
 
 let ventanaCurso = document.getElementById("ventanaCurso");
 
