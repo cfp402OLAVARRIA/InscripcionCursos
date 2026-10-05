@@ -6,10 +6,16 @@ let mensaje = document.getElementById("mensaje");
 
 let boton = formulario.querySelector("button[type='submit']");
 
+let iframeEnvio = document.querySelector("iframe[name='envio']");
 
-// MOSTRAR MENSAJE AL ENVIAR
+let enviando = false;
+
+
+// CUANDO SE ENVÍA EL FORMULARIO
 
 formulario.addEventListener("submit", function() {
+
+    enviando = true;
 
     mensaje.innerHTML =
         "⏳ Enviando inscripción...";
@@ -18,21 +24,27 @@ formulario.addEventListener("submit", function() {
 
     boton.innerHTML = "ENVIANDO...";
 
+});
 
-    // Después de unos segundos mostramos que fue enviada
 
-    setTimeout(function() {
+// CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
 
-        mensaje.innerHTML =
-            "✅ ¡Inscripción enviada correctamente!";
+iframeEnvio.addEventListener("load", function() {
 
-        formulario.reset();
+    if (!enviando) {
+        return;
+    }
 
-        boton.disabled = false;
+    mensaje.innerHTML =
+        "✅ ¡Inscripción enviada correctamente!";
 
-        boton.innerHTML = "INSCRIBIRME";
+    formulario.reset();
 
-    }, 3000);
+    boton.disabled = false;
+
+    boton.innerHTML = "INSCRIBIRME";
+
+    enviando = false;
 
 });
 
