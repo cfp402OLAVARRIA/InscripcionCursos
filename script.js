@@ -1,72 +1,21 @@
+// FORMULARIO
+
 let formulario = document.getElementById("formulario");
 
-const URL_APPS_SCRIPT =
-    "https://script.google.com/macros/s/AKfycbz26bHjMYRf6QMj2XwBOHq1zKOVeKHACGiVsctzbY5vEpO173vZQyT4ruQHfvcSGMmO/exec";
+let mensaje = document.getElementById("mensaje");
 
 
-formulario.addEventListener("submit", function(evento) {
+// MOSTRAR MENSAJE AL ENVIAR
 
-    evento.preventDefault();
+formulario.addEventListener("submit", function() {
 
-    let nombre = document.getElementById("nombre").value;
-    let apellido = document.getElementById("apellido").value;
-    let dni = document.getElementById("dni").value;
-    let pabellon = document.getElementById("pabellon").value;
-    let celda = document.getElementById("celda").value;
-    let curso = document.getElementById("curso").value;
-
-    let formularioEnvio = document.createElement("form");
-
-    formularioEnvio.method = "POST";
-    formularioEnvio.action = URL_APPS_SCRIPT;
-    formularioEnvio.target = "ventanaEnvio";
-
-    function agregarCampo(nombre, valor) {
-
-        let campo = document.createElement("input");
-
-        campo.type = "hidden";
-        campo.name = nombre;
-        campo.value = valor;
-
-        formularioEnvio.appendChild(campo);
-    }
-
-    agregarCampo("nombre", nombre);
-    agregarCampo("apellido", apellido);
-    agregarCampo("dni", dni);
-    agregarCampo("pabellon", pabellon);
-    agregarCampo("celda", celda);
-    agregarCampo("curso", curso);
-
-    let iframe = document.createElement("iframe");
-
-    iframe.name = "ventanaEnvio";
-    iframe.style.display = "none";
-
-    document.body.appendChild(iframe);
-    document.body.appendChild(formularioEnvio);
-
-    formularioEnvio.submit();
-
-    document.getElementById("mensaje").innerHTML =
+    mensaje.innerHTML =
         "⏳ Enviando inscripción...";
 
-    setTimeout(function() {
-
-        document.getElementById("mensaje").innerHTML =
-            "✅ Solicitud enviada correctamente.<br><br>" +
-            "Alumno: " + nombre + " " + apellido + "<br>" +
-            "Curso: " + curso;
-
-        formulario.reset();
-
-        formularioEnvio.remove();
-        iframe.remove();
-
-    }, 3000);
-
 });
+
+
+// ELEMENTOS DE LA VENTANA DEL CURSO
 
 let ventanaCurso = document.getElementById("ventanaCurso");
 
@@ -83,7 +32,7 @@ let curso = document.getElementById("curso");
 
 // DESCRIPCIONES DE LOS CURSOS
 
-let descripciones= {
+let descripciones = {
 
     "Cesteria":
         "Es el arte de tejer objetos utilizables para la vida cotidiana empleando principalmente materiales de origen vegetal y no solo es una herramienta útil para transportar y almacenar alimentos, instrumento de campo y otros enseres, como decoración, sino que también es un objeto artesanal que demuestra la destreza y el concepto estético de quienes lo crean. Esta practica milenaria, es una de las más antiguas de la humanidad, y no requiere costo alguno, ya que obtenemos la maateria prima de nuestro entorno natural, el cual es totalmente renovable y amigable con la ecología y el medio ambiente,permitiéndonos una rentabilidad del 100%. ",
@@ -92,13 +41,13 @@ let descripciones= {
         "Es un espacio donde podes expresar tu creatividad creando aplicaciones, sistemas y herramientas que resuelven problemas reales. Desde desarrollar un simple algoritmo hasta diseñar un software completo, cada linea de codigo es una oportunidad para desplegar tu logica, tu ingenio y tu capacidad de creacion. Empleabilidad y Futuro Asegurado: El mundo digital esta en pleno crecimiento, y cada vez mas empresas, instituciones y emprendimiento necesitan programadores capacitados. Es una de las profesiones con mayor demanda en la catualidad y con exelente proyecciones a futuro.",
 
     "Mantenimiento de Edificio":
-        "Empleabilidad: La industria del mantenimiento de edificios es fundamental para garantizar que las infraestructuras funcionen de manera segura y eficiente. Con este curso, tendrás la oportunidad de ingresar a un campo laborar en constante crecimiento y demanda de profecionales capacitados en el mantenimiento y la gestión de edificaciones. Estabilidad Laboral: Los edificios, ya sean residenciales, comerciales o industriales, requieren un mantenimiento regular para asegurar su funcionamiento adecuado y prolongar su vida útil. Siempre habra una demanda continua de servicios de mantenimiento. ", 
+        "Empleabilidad: La industria del mantenimiento de edificios es fundamental para garantizar que las infraestructuras funcionen de manera segura y eficiente. Con este curso, tendrás la oportunidad de ingresar a un campo laborar en constante crecimiento y demanda de profecionales capacitados en el mantenimiento y la gestión de edificaciones. Estabilidad Laboral: Los edificios, ya sean residenciales, comerciales o industriales, requieren un mantenimiento regular para asegurar su funcionamiento adecuado y prolongar su vida útil. Siempre habra una demanda continua de servicios de mantenimiento.",
 
-     "Mecanica de Ciclomotor":
+    "Mecanica de Ciclomotor":
         "La mecanica esta presente en la mayoria de los oficios. Pero la mecanica de moto requiere de profecionales capacitados. Con este curso tendrán la oportunidad de entrar en un campo laboral en pleno crecimiento. Estabilidad Laboral: Nos permite trabajar en relacion de dependencia o de forma autónoma. Oportunidad de Desarrollo: Una vez adquirido los conocimientos y habilidades necesarias hay un sin fin de opciones de crecimiento profecional.",
 
     "Bobinado":
-        "Organizar y gestionar las tareas de reparación de los bobinados de las máquinas eléctricas estáticas y dinámicas. Organizar y gestionar las tareas de las máquinas eléctricas estáticas y dinámicas, diagnosticar y ejecutar tareas preventivas y/o correctivas de los bobinados de las máquinas eléctricas estáticas y dinámicas, entregar y controlar la calidad de los trabajos, organizar y gestionar el taller para la prestación de servicios a terceros de bobinados de máquinas eléctricas estáticas y dinámicas.  ",
+        "Organizar y gestionar las tareas de reparación de los bobinados de las máquinas eléctricas estáticas y dinámicas. Organizar y gestionar las tareas de las máquinas eléctricas estáticas y dinámicas, diagnosticar y ejecutar tareas preventivas y/o correctivas de los bobinados de las máquinas eléctricas estáticas y dinámicas, entregar y controlar la calidad de los trabajos, organizar y gestionar el taller para la prestación de servicios a terceros de bobinados de máquinas eléctricas estáticas y dinámicas.",
 
     "Operador de Carpinteria y Fabricacion de Mobiliarios":
         "La carpinteria esta presente en la vida cotidiana de las personas. Requiere de conocimientos, profecionales capacitados. Con este curso tendrán la oportunidad de entrar en un campo laboral con un pleno crecimiento. Estabilidad Laboral: Nos permite trabajar en relacion de dependencia o de forma autónoma. Oportunidad de desarrollo, una vez adquiridos los conocimientos y habilidades necesarias hay muchísimas oportunidades de crecimiento profecional en el oficio.",
@@ -110,42 +59,53 @@ let descripciones= {
         "Operá la computadota utilizando procedimientos de optimización de los sistemas informáticos, buscar información y realizar comunicaciones a través de internet, organizar datos numéricos, realizar cómputos de uso administrativo y comercial, incluyendo decisiones lógicas y graficando resultados o relaciones por medio de una pantalla de cálculo, herramientas para la planificación de tareas y actividades de proyectos entre otras, transcribir comunicaciones de apoyo visual y otros elementos de apoyo al trabajo individual o grupal.",
 
     "Operador de Planta de Residuos Solidos y Hurbanos":
-        "Este curso brindan conocimientos y herramientas para trabajar en plantas destinadas a la recepción, clasificación, separación, tratamiento y acondicionamiento de residuos sólidos urbanos. Durante la capacitación se conocen los distintos tipos de residuos y las formas adecuadas de manipularlos, teniendo en cuenta las normas de seguridad e higiene. Se abordaran prácticas relacionadas conel reciclaje, la recuperación de materiales y el reciclaje, la recuperación de materiales y el cuidado del medio ambiente, promooviendo una correcta gestión de los residuos. La formación permite adquirir conocimientos útiles para desempeñarse en plantas de tratamiento y otros espacios vinculados a la gestión y manejo de residuos. ",
+        "Este curso brindan conocimientos y herramientas para trabajar en plantas destinadas a la recepción, clasificación, separación, tratamiento y acondicionamiento de residuos sólidos urbanos. Durante la capacitación se conocen los distintos tipos de residuos y las formas adecuadas de manipularlos, teniendo en cuenta las normas de seguridad e higiene. Se abordaran prácticas relacionadas conel reciclaje, la recuperación de materiales y el reciclaje, la recuperación de materiales y el cuidado del medio ambiente, promooviendo una correcta gestión de los residuos. La formación permite adquirir conocimientos útiles para desempeñarse en plantas de tratamiento y otros espacios vinculados a la gestión y manejo de residuos.",
 
     "Reciclaje":
         "Este curso está diseñado para proporcionar a los participantes una comprensión integral de la gestión adecuada de residuos, desde su clasificación hasta el reciclaje y la disposición final. A través de una formación práctica y actualizada, vas aprender como reducir, clasificar, gestionaar y reciclar los residuos, así como cumplir con la normativa ambiental vigente y aplicar innovaciones tecnologicas en reciclaje",
 
     "Instalador de Sistemas de Energia Renovable":
-        "Este curso brinda los conocimientos y herramientas necesarias para aprender a instalar, mantener y verificar sistemas que utilizan energias renovables, especialmentee aquellos relacionados con la generacion de energia solar. El objetivo es que los estudiantes puedan adquirir conocimientos tecnicos y prácticos que le permitan desempeñarse en tareas relacionadas con la instalación y mantenimiento de sistema de energías renovables, una actividad con creciente importancia debido a la búsqueda de alternativas energéticas más eficientes y sustenciables. "
+        "Este curso brinda los conocimientos y herramientas necesarias para aprender a instalar, mantener y verificar sistemas que utilizan energias renovables, especialmentee aquellos relacionados con la generacion de energia solar. El objetivo es que los estudiantes puedan adquirir conocimientos tecnicos y prácticos que le permitan desempeñarse en tareas relacionadas con la instalación y mantenimiento de sistema de energías renovables, una actividad con creciente importancia debido a la búsqueda de alternativas energéticas más eficientes y sustenciables."
+
 };
 
-// IMAGENES CURSO
+
+// IMAGENES DE LOS CURSOS
+
 let imagenes = {
 
-    "Cesteria": "imagenes/cesteria.jpg",
+    "Cesteria":
+        "imagenes/cesteria.jpg",
 
-    "Programacion": "imagenes/programacion.png",
+    "Programacion":
+        "imagenes/programacion.png",
 
-    "Mantenimiento de Edificio": "imagenes/mantenimiento edificio.jpg",
+    "Mantenimiento de Edificio":
+        "imagenes/mantenimiento edificio.jpg",
 
-    "Mecanica de Ciclomotor": "imagenes/ciclomotor.jpg",
+    "Mecanica de Ciclomotor":
+        "imagenes/ciclomotor.jpg",
 
-    "Bobinado": "imagenes/bobinado.jpg",
+    "Bobinado":
+        "imagenes/bobinado.jpg",
 
-    "Instalador de Sistemas de Energia Renovable": "imagenes/renovable.jpg",
+    "Instalador de Sistemas de Energia Renovable":
+        "imagenes/renovable.jpg",
 
-    "Operador de Carpinteria y Fabricacion de Mobiliarios": "imagenes/carpinteria.jpg",
+    "Operador de Carpinteria y Fabricacion de Mobiliarios":
+        "imagenes/carpinteria.jpg",
 
-    "Muebles Artesanales": "imagenes/muebles artesanales.jpg",
+    "Muebles Artesanales":
+        "imagenes/muebles artesanales.jpg",
 
-    "Operador de Informatica para Administracion y Gestion": "imagenes/gestion.jpg",
+    "Operador de Informatica para Administracion y Gestion":
+        "imagenes/gestion.jpg",
 
-    "Operador de Planta de Residuos Solidos y Hurbanos": "imagenes/hurbano.jpg",
+    "Operador de Planta de Residuos Solidos y Hurbanos":
+        "imagenes/hurbano.jpg",
 
-    "Reciclaje": "imagenes/reciclaje.png"
-
-    
-
+    "Reciclaje":
+        "imagenes/reciclaje.png"
 
 };
 
@@ -162,9 +122,11 @@ curso.addEventListener("change", function() {
 
     tituloCurso.textContent = cursoSeleccionado;
 
-    descripcionCurso.textContent=descripciones[cursoSeleccionado];
+    descripcionCurso.textContent =
+        descripciones[cursoSeleccionado];
 
-        imagenCurso.src=imagenes[cursoSeleccionado];
+    imagenCurso.src =
+        imagenes[cursoSeleccionado];
 
     ventanaCurso.style.display = "flex";
 
@@ -178,6 +140,3 @@ cerrarInfo.addEventListener("click", function() {
     ventanaCurso.style.display = "none";
 
 });
-
-
-
