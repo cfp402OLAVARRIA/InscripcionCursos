@@ -4,6 +4,8 @@ let formulario = document.getElementById("formulario");
 
 let mensaje = document.getElementById("mensaje");
 
+let boton = formulario.querySelector("button[type='submit']");
+
 
 // MOSTRAR MENSAJE AL ENVIAR
 
@@ -12,8 +14,27 @@ formulario.addEventListener("submit", function() {
     mensaje.innerHTML =
         "⏳ Enviando inscripción...";
 
-});
+    boton.disabled = true;
 
+    boton.innerHTML = "ENVIANDO...";
+
+
+    // Después de unos segundos mostramos que fue enviada
+
+    setTimeout(function() {
+
+        mensaje.innerHTML =
+            "✅ ¡Inscripción enviada correctamente!";
+
+        formulario.reset();
+
+        boton.disabled = false;
+
+        boton.innerHTML = "INSCRIBIRME";
+
+    }, 3000);
+
+});
 
 // ELEMENTOS DE LA VENTANA DEL CURSO
 
