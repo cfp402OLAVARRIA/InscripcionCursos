@@ -4,7 +4,7 @@ const URL_APPS_SCRIPT =
     "https://script.google.com/macros/s/AKfycbz26bHjMYRf6QMj2XwBOHq1zKOVeKHACGiVsctzbY5vEpO173vZQyT4ruQHfvcSGMmO/exec";
 
 
-formulario.addEventListener("submit", async function(evento) {
+formulario.addEventListener("submit", function(evento) {
 
     evento.preventDefault();
 
@@ -15,42 +15,56 @@ formulario.addEventListener("submit", async function(evento) {
     let celda = document.getElementById("celda").value;
     let curso = document.getElementById("curso").value;
 
-    let mensaje = document.getElementById("mensaje");
+    let formularioEnvio = document.createElement("form");
 
-    mensaje.innerHTML = "⏳ Enviando inscripción...";
+    formularioEnvio.method = "POST";
+    formularioEnvio.action = URL_APPS_SCRIPT;
+    formularioEnvio.target = "ventanaEnvio";
 
-    let datos = {
-        nombre: nombre,
-        apellido: apellido,
-        dni: dni,
-        pabellon: pabellon,
-        celda: celda,
-        curso: curso
-    };
+    function agregarCampo(nombre, valor) {
 
-    try {
+        let campo = document.createElement("input");
 
-            await fetch(URL_APPS_SCRIPT, {
-                method: "POST",
-                  mode: "no-cors",
-                body: new URLSearchParams(datos)
-               
-        });
+        campo.type = "hidden";
+        campo.name = nombre;
+        campo.value = valor;
 
-    mensaje.innerHTML =
-        "✅ Solicitud enviada correctamente.<br><br>" +
-        "Alumno: " + nombre + " " + apellido + "<br>" +
-        "Curso: " + curso;
+        formularioEnvio.appendChild(campo);
+    }
 
-    formulario.reset();
+    agregarCampo("nombre", nombre);
+    agregarCampo("apellido", apellido);
+    agregarCampo("dni", dni);
+    agregarCampo("pabellon", pabellon);
+    agregarCampo("celda", celda);
+    agregarCampo("curso", curso);
 
-} catch (error) {
+    let iframe = document.createElement("iframe");
 
-    mensaje.innerHTML =
-        "❌ No se pudo enviar la inscripción.";
+    iframe.name = "ventanaEnvio";
+    iframe.style.display = "none";
 
-    console.error(error);
-}
+    document.body.appendChild(iframe);
+    document.body.appendChild(formularioEnvio);
+
+    formularioEnvio.submit();
+
+    document.getElementById("mensaje").innerHTML =
+        "⏳ Enviando inscripción...";
+
+    setTimeout(function() {
+
+        document.getElementById("mensaje").innerHTML =
+            "✅ Solicitud enviada correctamente.<br><br>" +
+            "Alumno: " + nombre + " " + apellido + "<br>" +
+            "Curso: " + curso;
+
+        formulario.reset();
+
+        formularioEnvio.remove();
+        iframe.remove();
+
+    }, 3000);
 
 });
 
