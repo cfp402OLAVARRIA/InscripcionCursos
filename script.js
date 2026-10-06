@@ -6,10 +6,16 @@ let mensaje = document.getElementById("mensaje");
 
 let boton = formulario.querySelector("button[type='submit']");
 
+let iframeEnvio = document.querySelector("iframe[name='envio']");
 
-// MOSTRAR MENSAJE AL ENVIAR
+let enviando = false;
+
+
+// CUANDO SE ENVÍA EL FORMULARIO
 
 formulario.addEventListener("submit", function() {
+
+    enviando = true;
 
     mensaje.innerHTML =
         "⏳ Enviando inscripción...";
@@ -20,20 +26,27 @@ formulario.addEventListener("submit", function() {
 
 });
 
-// ELEMENTOS DE LA VENTANA DEL CURSO
 
-let ventanaCurso = document.getElementById("ventanaCurso");
+// CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
 
-let tituloCurso = document.getElementById("tituloCurso");
+iframeEnvio.addEventListener("load", function() {
 
-let descripcionCurso = document.getElementById("descripcionCurso");
+    if (!enviando) {
+        return;
+    }
 
-let cerrarInfo = document.getElementById("cerrarInfo");
+    mensaje.innerHTML =
+        "✅ ¡Inscripción enviada correctamente!";
 
-let imagenCurso = document.getElementById("imagenCurso");
+    formulario.reset();
 
-let curso = document.getElementById("curso");
+    boton.disabled = false;
 
+    boton.innerHTML = "INSCRIBIRME";
+
+    enviando = false;
+
+});
 
 // DESCRIPCIONES DE LOS CURSOS
 
