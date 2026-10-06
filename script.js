@@ -6,79 +6,17 @@ let mensaje = document.getElementById("mensaje");
 
 let boton = formulario.querySelector("button[type='submit']");
 
-const URL_APPS_SCRIPT =
-    "https://script.google.com/macros/s/AKfycbz26bHjMYRf6QMj2XwBOHq1zKOVeKHACGiVsctzbY5vEpO173vZQyT4ruQHfvcSGMmO/exec";
 
+// MOSTRAR MENSAJE AL ENVIAR
 
-formulario.addEventListener("submit", async function(evento) {
+formulario.addEventListener("submit", function() {
 
-    evento.preventDefault();
-
-    mensaje.innerHTML = "⏳ Enviando inscripción...";
+    mensaje.innerHTML =
+        "⏳ Enviando inscripción...";
 
     boton.disabled = true;
+
     boton.innerHTML = "ENVIANDO...";
-
-
-    let datos = new URLSearchParams();
-
-    datos.append("nombre",
-        document.getElementById("nombre").value);
-
-    datos.append("apellido",
-        document.getElementById("apellido").value);
-
-    datos.append("dni",
-        document.getElementById("dni").value);
-
-    datos.append("pabellon",
-        document.getElementById("pabellon").value);
-
-    datos.append("celda",
-        document.getElementById("celda").value);
-
-    datos.append("curso",
-        document.getElementById("curso").value);
-
-
-    try {
-
-        let respuesta = await fetch(
-            URL_APPS_SCRIPT,
-            {
-                method: "POST",
-                body: datos
-            }
-        );
-
-        let resultado = await respuesta.json();
-
-
-        if (resultado.ok) {
-
-            mensaje.innerHTML =
-                "✅ ¡Inscripción enviada correctamente!";
-
-            formulario.reset();
-
-        } else {
-
-            mensaje.innerHTML =
-                "❌ " + resultado.mensaje;
-
-        }
-
-
-    } catch (error) {
-
-        mensaje.innerHTML =
-            "❌ No se pudo enviar la inscripción.";
-
-    }
-
-
-    boton.disabled = false;
-    boton.innerHTML = "INSCRIBIRME";
 
 });
 
