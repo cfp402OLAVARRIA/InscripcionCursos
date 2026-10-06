@@ -6,45 +6,79 @@ let mensaje = document.getElementById("mensaje");
 
 let boton = formulario.querySelector("button[type='submit']");
 
-let iframeEnvio = document.querySelector("iframe[name='envio']");
+const URL_APPS_SCRIPT =
+    "https://script.google.com/macros/s/AKfycbz26bHjMYRf6QMj2XwBOHq1zKOVeKHACGiVsctzbY5vEpO173vZQyT4ruQHfvcSGMmO/exec";
 
-let enviando = false;
 
+formulario.addEventListener("submit", async function(evento) {
 
-// CUANDO SE ENVÍA EL FORMULARIO
+    evento.preventDefault();
 
-formulario.addEventListener("submit", function() {
-
-    enviando = true;
-
-    mensaje.innerHTML =
-        "⏳ Enviando formulario...";
+    mensaje.innerHTML = "⏳ Enviando inscripción...";
 
     boton.disabled = true;
-
     boton.innerHTML = "ENVIANDO...";
 
-});
+
+    let datos = new URLSearchParams();
+
+    datos.append("nombre",
+        document.getElementById("nombre").value);
+
+    datos.append("apellido",
+        document.getElementById("apellido").value);
+
+    datos.append("dni",
+        document.getElementById("dni").value);
+
+    datos.append("pabellon",
+        document.getElementById("pabellon").value);
+
+    datos.append("celda",
+        document.getElementById("celda").value);
+
+    datos.append("curso",
+        document.getElementById("curso").value);
 
 
-// CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
+    try {
 
-iframeEnvio.addEventListener("load", function() {
+        let respuesta = await fetch(
+            URL_APPS_SCRIPT,
+            {
+                method: "POST",
+                body: datos
+            }
+        );
 
-    if (!enviando) {
-        return;
+        let resultado = await respuesta.json();
+
+
+        if (resultado.ok) {
+
+            mensaje.innerHTML =
+                "✅ ¡Inscripción enviada correctamente!";
+
+            formulario.reset();
+
+        } else {
+
+            mensaje.innerHTML =
+                "❌ " + resultado.mensaje;
+
+        }
+
+
+    } catch (error) {
+
+        mensaje.innerHTML =
+            "❌ No se pudo enviar la inscripción.";
+
     }
 
-    mensaje.innerHTML =
-        "✅ ¡Inscripción enviada correctamente!";
-
-    formulario.reset();
 
     boton.disabled = false;
-
     boton.innerHTML = "INSCRIBIRME";
-
-    enviando = false;
 
 });
 
