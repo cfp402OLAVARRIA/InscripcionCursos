@@ -18,7 +18,7 @@ formulario.addEventListener("submit", function() {
     enviando = true;
 
     mensaje.innerHTML =
-        "⏳ Prueba...";
+        "⏳ Enviando Inscripcion...";
 
     boton.disabled = true;
 
