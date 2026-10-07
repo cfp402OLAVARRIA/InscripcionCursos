@@ -18,13 +18,14 @@ formulario.addEventListener("submit", function() {
     enviando = true;
 
     mensaje.innerHTML =
-        "⏳ Enviando Inscripcion...";
+        "⏳ Enviando inscripción...";
 
     boton.disabled = true;
 
     boton.innerHTML = "ENVIANDO...";
 
 });
+
 
 // CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
 
