@@ -6,10 +6,16 @@ let mensaje = document.getElementById("mensaje");
 
 let boton = formulario.querySelector("button[type='submit']");
 
+let iframeEnvio = document.querySelector("iframe[name='envio']");
+
+let enviando = false;
+
 
 // CUANDO SE ENVÍA EL FORMULARIO
 
 formulario.addEventListener("submit", function() {
+
+    enviando = true;
 
     mensaje.innerHTML =
         "⏳ Enviando inscripción...";
@@ -21,71 +27,26 @@ formulario.addEventListener("submit", function() {
 });
 
 
-// RECIBIR RESULTADO DESDE resultado.html
+// CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
 
-window.addEventListener("message", function(event) {
+iframeEnvio.addEventListener("load", function() {
 
-    // Verificar que el mensaje venga de nuestra página
-
-    if (
-        event.origin !==
-        "https://cfp402olavarria.github.io"
-    ) {
+    if (!enviando) {
         return;
     }
 
+    mensaje.innerHTML =
+        "✅ ¡Inscripción enviada correctamente!";
 
-    // Verificar que sea un resultado de inscripción
-
-    if (
-        !event.data ||
-        event.data.tipo !== "resultadoInscripcion"
-    ) {
-        return;
-    }
-
-
-    // INSCRIPCIÓN CORRECTA
-
-    if (event.data.resultado === "ok") {
-
-        mensaje.innerHTML =
-            "✅ ¡Inscripción enviada correctamente!";
-
-        formulario.reset();
-
-    }
-
-
-    // YA TIENE 2 CURSOS
-
-    else if (event.data.resultado === "limite") {
-
-        mensaje.innerHTML =
-            "❌ <b>No podés inscribirte en otro curso.</b><br>" +
-            "Ya estás inscripto en 2 cursos.";
-
-    }
-
-
-    // ERROR
-
-    else {
-
-        mensaje.innerHTML =
-            "❌ No se pudo procesar la inscripción.";
-
-    }
-
-
-    // VOLVER A ACTIVAR EL BOTÓN
+    formulario.reset();
 
     boton.disabled = false;
 
     boton.innerHTML = "INSCRIBIRME";
 
-});
+    enviando = false;
 
+});
 // DESCRIPCIONES DE LOS CURSOS
 
 let descripciones = {
