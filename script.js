@@ -1,30 +1,3 @@
-// FORMULARIO
-
-let formulario = document.getElementById("formulario");
-
-let mensaje = document.getElementById("mensaje");
-
-let boton = formulario.querySelector("button[type='submit']");
-
-let iframeEnvio = document.querySelector("iframe[name='envio']");
-
-let enviando = false;
-
-
-// CUANDO SE ENVÍA EL FORMULARIO
-
-formulario.addEventListener("submit", function() {
-
-    enviando = true;
-
-    mensaje.innerHTML =
-        "⏳ Enviando Inscripcion...";
-
-    boton.disabled = true;
-
-    boton.innerHTML = "ENVIANDO...";
-
-});
 
 
 // CUANDO APPS SCRIPT TERMINA DE RECIBIR EL FORMULARIO
